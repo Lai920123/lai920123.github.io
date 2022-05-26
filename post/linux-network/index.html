@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.98.0" />
+
+  <title>Linux網路配置 &middot; Lai Hugo Site</title>
+
+    
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+
+  <link rel="shortcut icon" href="http://lai920123.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Linux網路配置</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>20 May 2022, 15:04</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <p>在Linux中,有非常多種網路設定方式,以下會列出最常用到的幾種,可以自行依照實做時遇到的來配置</p>
+<h1 id="debian">Debian</h1>
+<p>設定檔在/etc/network/interfaces
+先使用ip addr查看網卡名稱,範例使用ens33<br>
+接著編輯設定檔</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>vim <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>network<span style="color:#f92672">/</span>interfaces
+</span></span></code></pre></div><p>移到最下方接著輸入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>auto ens33  
+</span></span><span style="display:flex;"><span>iface ens33 inet static (iface<span style="color:#f92672">=</span>interface,inet<span style="color:#f92672">=</span>ipv4(如果是ipv6就使用inet6),static<span style="color:#f92672">=</span>靜態配置IP,動態的話輸入DHCP)   
+</span></span><span style="display:flex;"><span>address <span style="color:#ae81ff">192.168.1.100</span> <span style="color:#75715e">#IP位置  </span>
+</span></span><span style="display:flex;"><span>netmask <span style="color:#ae81ff">255.255.255.0</span> <span style="color:#75715e">#遮罩  </span>
+</span></span><span style="display:flex;"><span>gateway <span style="color:#ae81ff">192.168.1.254</span> <span style="color:#75715e">#預設閘道  </span>
+</span></span></code></pre></div><h1 id="ubuntu">Ubuntu</h1>
+<p>使用netplan來配置<br>
+netplan是使用yaml的語法來做編輯,所以要特別注意空格,若是格式錯了就會無法正確啟動<br>
+先使用ip addr查看網卡名稱,範例使用ens33<br>
+設定檔位於/etc/netplan底下,若是沒有可以自行創建一個像是01-netcfg.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>vim <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>netplan<span style="color:#f92672">/</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span>netcfg<span style="color:#f92672">.</span>yaml  
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>network:  
+</span></span><span style="display:flex;"><span>  version: <span style="color:#ae81ff">2</span>  
+</span></span><span style="display:flex;"><span>  renderer: networkd <span style="color:#75715e">#使用networkd這個deamon  </span>
+</span></span><span style="display:flex;"><span>  ethernets:  
+</span></span><span style="display:flex;"><span>    ens33:  
+</span></span><span style="display:flex;"><span>      addresses: [ <span style="color:#ae81ff">192.168.1.100</span><span style="color:#f92672">/</span><span style="color:#ae81ff">24</span> ] <span style="color:#75715e">#IP位置和遮罩</span>
+</span></span><span style="display:flex;"><span>      gateway4: <span style="color:#ae81ff">192.168.1.254</span>
+</span></span><span style="display:flex;"><span>      nameservers:
+</span></span><span style="display:flex;"><span>          search: [ www<span style="color:#f92672">.</span>lai<span style="color:#f92672">.</span>com ]
+</span></span><span style="display:flex;"><span>          addresses: [ <span style="color:#ae81ff">8.8.8.8</span> <span style="color:#ae81ff">168.95.1.1</span> ]
+</span></span></code></pre></div><p>都配置完後可以使用netplan apply確定配置完成,也可以使用netplan try來測試配置有沒有錯誤</p>
+<h1 id="centos">CentOS</h1>
+<p>使用nmcli來配置網路,也可以使用nmtui進行圖形化的設定,或者編輯設定檔<br>
+1.先使用nmcli device查看網路裝置,範例一樣使用ens33</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli connection可以看到UUID和連線類型
+</span></span><span style="display:flex;"><span>  進行網卡設定:
+</span></span><span style="display:flex;"><span>  nmcli connection modify ens33 \
+</span></span><span style="display:flex;"><span>  ipv4<span style="color:#f92672">.</span>addresses <span style="color:#ae81ff">192.168.1.100</span><span style="color:#f92672">/</span><span style="color:#ae81ff">24</span> \ <span style="color:#75715e">#IP位置和遮罩</span>
+</span></span><span style="display:flex;"><span>  ipv4<span style="color:#f92672">.</span>gateway <span style="color:#ae81ff">192.168.1.254</span> \ <span style="color:#75715e">#預設閘道</span>
+</span></span><span style="display:flex;"><span>  ipv4<span style="color:#f92672">.</span>dns <span style="color:#ae81ff">8.8.8.8</span> \ <span style="color:#75715e">#dns server</span>
+</span></span><span style="display:flex;"><span>  ipv4<span style="color:#f92672">.</span>method manual <span style="color:#75715e">#配置方法為手動</span>
+</span></span><span style="display:flex;"><span>  ipv4<span style="color:#f92672">.</span>method auto   <span style="color:#75715e">#配置方法為dhcp</span>
+</span></span></code></pre></div><p>新增第二個IP</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli connection modify ens33 <span style="color:#f92672">+</span>ipv4<span style="color:#f92672">.</span>addresses <span style="color:#ae81ff">192.168.1.101</span><span style="color:#f92672">/</span><span style="color:#ae81ff">24</span>
+</span></span></code></pre></div><p>刪除第二個IP</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli connection modify ens33 <span style="color:#f92672">-</span>ipv4<span style="color:#f92672">.</span>addresses <span style="color:#ae81ff">192.168.1.101</span><span style="color:#f92672">/</span><span style="color:#ae81ff">24</span>
+</span></span></code></pre></div><p>查看配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli connection show ens33 
+</span></span></code></pre></div><p>啟動網卡</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli connection up ens33
+</span></span></code></pre></div><p>停用網卡</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  nmcli dev disconnect ens33
+</span></span></code></pre></div><p>2.編輯設定檔</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  vim <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>sysconfig<span style="color:#f92672">/</span>network<span style="color:#f92672">-</span>script<span style="color:#f92672">/</span>ifcfg<span style="color:#f92672">-&lt;</span>device<span style="color:#f92672">-</span>name<span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>開啟後會看到以下,有幾個比較重要一定要改的註解起來</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>  TYPE<span style="color:#f92672">=</span>Ethernet
+</span></span><span style="display:flex;"><span>  PROXY_METHOD<span style="color:#f92672">=</span>none
+</span></span><span style="display:flex;"><span>  BROWSER_ONLY<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>  BOOTPROTO<span style="color:#f92672">=</span>static <span style="color:#75715e">#dhcp(自動配置),static(手動配置)</span>
+</span></span><span style="display:flex;"><span>  DEFROUTE<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>  IPV4_FAILURE_FATAL<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>  IPV6INIT<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>  IPV6_AUTOCONF<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>  IPV6_DEFROUTE<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>  IPV6_FAILURE_FATAL<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>  IPV6_ADDR_GEN_MODE<span style="color:#f92672">=</span>stable<span style="color:#f92672">-</span>privacy
+</span></span><span style="display:flex;"><span>  NAME<span style="color:#f92672">=</span>enp0s3  
+</span></span><span style="display:flex;"><span>  UUID<span style="color:#f92672">=</span>fc289d60<span style="color:#f92672">-</span><span style="color:#ae81ff">31</span>ad<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>d3c<span style="color:#f92672">-</span>a668<span style="color:#f92672">-</span><span style="color:#ae81ff">14</span>d7445efa41
+</span></span><span style="display:flex;"><span>  DEVICE<span style="color:#f92672">=</span>enp0s3        
+</span></span><span style="display:flex;"><span>  ONBOOT<span style="color:#f92672">=</span>yes     <span style="color:#75715e">#開機時啟動此網路介面</span>
+</span></span><span style="display:flex;"><span>  IPADDR<span style="color:#f92672">=</span><span style="color:#ae81ff">192.168.1.100</span> <span style="color:#75715e">#IP位置</span>
+</span></span><span style="display:flex;"><span>  GATEWAY<span style="color:#f92672">=</span><span style="color:#ae81ff">192.168.1.1</span> <span style="color:#75715e">#預設閘道</span>
+</span></span><span style="display:flex;"><span>  NETWORK<span style="color:#f92672">=</span><span style="color:#ae81ff">192.168.1.0</span> <span style="color:#75715e">#網段</span>
+</span></span><span style="display:flex;"><span>  NETMASK<span style="color:#f92672">=</span><span style="color:#ae81ff">255.255.255.0</span> <span style="color:#75715e">#子網路遮罩</span>
+</span></span><span style="display:flex;"><span>  DNS1<span style="color:#f92672">=</span><span style="color:#ae81ff">168.95.1.1</span> <span style="color:#75715e">#DNS Server</span>
+</span></span><span style="display:flex;"><span>  DNS2<span style="color:#f92672">=</span><span style="color:#ae81ff">8.8.8.8</span> <span style="color:#75715e">#DNS Server</span>
+</span></span></code></pre></div><p>接著重新啟動NetworkManager就可以了</p>
+<h1 id="dns設定">DNS設定:</h1>
+<p>Linux中,設定DNS Server的方式幾乎都是位於/etc/resolv.conf這個設定檔</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>vim <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>resolv<span style="color:#f92672">.</span>conf 
+</span></span><span style="display:flex;"><span>nameserver <span style="color:#ae81ff">8.8.8.8</span> <span style="color:#75715e">#加入DNS Server就完成了</span>
+</span></span></code></pre></div><h1 id="名稱解析">名稱解析:</h1>
+<p>Linux的名稱解析檔案放在/etc/hosts</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>vim <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>hosts <span style="color:#75715e">#編輯檔案並放上對應的名稱跟IP就可以了</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">192.168.1.100</span>   ns1<span style="color:#f92672">.</span>lai<span style="color:#f92672">.</span>com
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">192.168.1.101</span>   www<span style="color:#f92672">.</span>lai<span style="color:#f92672">.</span>com
+</span></span></code></pre></div>
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span class="sr-only">Share on Facebook</span></a>
+	</li>&nbsp;&nbsp;&nbsp;
+	<li><a href="https://twitter.com/intent/tweet?source=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>&nbsp;&nbsp;&nbsp;
+	<li><a href="https://plus.google.com/share?url=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Share on Google+"><i class="fab fa-google-plus" aria-hidden="true"></i><span class="sr-only">Share on Google+</span></a>
+	</li>&nbsp;&nbsp;&nbsp;
+	<li><a href="http://www.tumblr.com/share?v=3&u=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Post to Tumblr"><i class="fab fa-tumblr" aria-hidden="true"></i><span class="sr-only">Post to Tumblr</span></a>
+	</li>&nbsp;&nbsp;&nbsp;
+	<li><a href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Pin it"><i class="fab fa-pinterest-p" aria-hidden="true"></i><span class="sr-only">Pin it</span></a>
+	</li>&nbsp;&nbsp;&nbsp;
+	<li><a href="http://www.reddit.com/submit?url=http%3a%2f%2flai920123.github.io%2fpost%2flinux-network%2f" target="_blank" title="Submit to Reddit"><i class="fab fa-reddit-alien" aria-hidden="true"></i><span class="sr-only">Submit to Reddit</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="http://lai920123.github.io/js/ui.js"></script>
+<script src="http://lai920123.github.io/js/menus.js"></script>
+
+
+
+
+
+
+
+
+<script src="/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+</body>
+</html>
+

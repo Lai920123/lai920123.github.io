@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lai Hugo Site</title>
+    <link>http://lai920123.github.io/</link>
+    <description>Recent content on Lai Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 May 2022 15:04:20 +0800</lastBuildDate><atom:link href="http://lai920123.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux網路配置</title>
+      <link>http://lai920123.github.io/post/linux-network/</link>
+      <pubDate>Fri, 20 May 2022 15:04:20 +0800</pubDate>
+      
+      <guid>http://lai920123.github.io/post/linux-network/</guid>
+      <description>在Linux中,有非常多種網路設定方式,以下會列出最常用到的幾種,可以自行依照實做時遇到的來配置
+Debian 設定檔在/etc/network/interfaces 先使用ip addr查看網卡名稱,範例使用ens33
+接著編輯設定檔
+vim /etc/network/interfaces 移到最下方接著輸入
+auto ens33 iface ens33 inet static (iface=interface,inet=ipv4(如果是ipv6就使用inet6),static=靜態配置IP,動態的話輸入DHCP) address 192.168.1.100 #IP位置  netmask 255.255.255.0 #遮罩  gateway 192.168.1.254 #預設閘道  Ubuntu 使用netplan來配置
+netplan是使用yaml的語法來做編輯,所以要特別注意空格,若是格式錯了就會無法正確啟動
+先使用ip addr查看網卡名稱,範例使用ens33
+設定檔位於/etc/netplan底下,若是沒有可以自行創建一個像是01-netcfg.yaml
+vim /etc/netplan/01-netcfg.yaml network:  version: 2  renderer: networkd #使用networkd這個deamon   ethernets:  ens33:  addresses: [ 192.168.1.100/24 ] #IP位置和遮罩  gateway4: 192.168.1.254  nameservers:  search: [ www.lai.com ]  addresses: [ 8.8.8.8 168.95.1.1 ] 都配置完後可以使用netplan apply確定配置完成,也可以使用netplan try來測試配置有沒有錯誤</description>
+    </item>
+    
+  </channel>
+</rss>
